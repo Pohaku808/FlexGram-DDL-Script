@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS `flexgram`.`macros` (
   `carbohydrates` INT(10) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
+AUTO_INCREMENT = 24
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -39,18 +40,19 @@ CREATE TABLE IF NOT EXISTS `flexgram`.`users` (
   `firstname` VARCHAR(30) NOT NULL,
   `lastname` VARCHAR(30) NOT NULL,
   `email` VARCHAR(100) NOT NULL,
-  `phonenumber` INT(11) NOT NULL,
+  `phonenumber` VARCHAR(15) NOT NULL,
   `username` VARCHAR(30) NOT NULL,
-  `password` VARCHAR(35) NOT NULL,
+  `password` VARCHAR(1000) NOT NULL,
   `macros_id` INT(11) NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_users_macros_idx` (`macros_id` ASC) VISIBLE,
+  INDEX `fk_users_macros_idx` (`macros_id` ASC),
   CONSTRAINT `fk_users_macros`
     FOREIGN KEY (`macros_id`)
     REFERENCES `flexgram`.`macros` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
+AUTO_INCREMENT = 21
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -60,19 +62,20 @@ DEFAULT CHARACTER SET = utf8;
 CREATE TABLE IF NOT EXISTS `flexgram`.`foods` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `users_id` INT(11) NOT NULL,
-  `foodName` INT(100) NOT NULL,
+  `foodName` VARCHAR(150) NOT NULL,
   `calories` INT(10) NOT NULL,
   `protein` INT(10) NOT NULL,
   `fats` INT(10) NOT NULL,
   `carbohydrates` INT(10) NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_foods_users1_idx` (`users_id` ASC) VISIBLE,
+  INDEX `fk_foods_users1_idx` (`users_id` ASC),
   CONSTRAINT `fk_foods_users1`
     FOREIGN KEY (`users_id`)
     REFERENCES `flexgram`.`users` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
+AUTO_INCREMENT = 5
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -97,13 +100,33 @@ CREATE TABLE IF NOT EXISTS `flexgram`.`posts` (
   `carbohydrates` INT(10) NOT NULL,
   `servings` INT(10) NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_recipeposts_users1_idx` (`users_id` ASC) VISIBLE,
+  INDEX `fk_recipeposts_users1_idx` (`users_id` ASC),
   CONSTRAINT `fk_recipeposts_users1`
     FOREIGN KEY (`users_id`)
     REFERENCES `flexgram`.`users` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
+AUTO_INCREMENT = 41
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `flexgram`.`user_likedposts`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `flexgram`.`user_likedposts` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `posts_id` INT(11) NOT NULL,
+  `likedBy_UserId` INT(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_user_likes_posts1_idx` (`posts_id` ASC),
+  CONSTRAINT `fk_user_likes_posts1`
+    FOREIGN KEY (`posts_id`)
+    REFERENCES `flexgram`.`posts` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+AUTO_INCREMENT = 23
 DEFAULT CHARACTER SET = utf8;
 
 
